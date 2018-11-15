@@ -1,5 +1,28 @@
 @echo off
 title Nanoquake
+echo Checking for new versions...
+if exist "versionscheck\org_version.txt" goto :version-check
+md versionscheck
+powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/Nanoquake/yquake2/tags").Links.Href > versionscheck\org_version.txt
+goto :version-ok
+:version-check
+powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/Nanoquake/yquake2/tags").Links.Href > versionscheck\check_version.txt
+fc /b versionscheck\org_version.txt versionscheck\check_version.txt > nul
+if errorlevel 1 (
+    goto :different
+) else (
+    goto :version-ok
+)
+:different
+cls
+echo.
+echo Please check out you have latest Nanoquake version from https://github.com/Nanoquake/yquake2/releases
+echo.
+rmdir /s /q versionscheck
+pause
+exit
+:version-ok
+cls
 if exist "baseq2\pak0.pak" (
     if exist "baseq2\players\" (
         goto :ok
