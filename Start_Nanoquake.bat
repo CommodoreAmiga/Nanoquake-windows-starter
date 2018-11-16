@@ -3,10 +3,10 @@ title Nanoquake
 echo Checking for new versions...
 if exist "versionscheck\org_version.txt" goto :version-check
 md versionscheck
-powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/Nanoquake/yquake2/tags").Links.Href > versionscheck\org_version.txt
+powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "(Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/Nanoquake/yquake2/tags').Links.Href | Where-Object {$_ -like '*zip*'}" > versionscheck\org_version.txt
 goto :version-ok
 :version-check
-powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/Nanoquake/yquake2/tags").Links.Href > versionscheck\check_version.txt
+powershell $progressPreference = 'silentlyContinue' ; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "(Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/Nanoquake/yquake2/tags').Links.Href | Where-Object {$_ -like '*zip*'}" > versionscheck\check_version.txt
 fc /b versionscheck\org_version.txt versionscheck\check_version.txt > nul
 if errorlevel 1 (
     goto :different
