@@ -10,7 +10,7 @@ __Changelog:__
 __Installation:__
 
 You can either:
-* Make a fresh install with placing Start_Nanoquake.bat to a new folder (for example C:\games\Nanoquake\) and then double-clicking Start_Nanoquake.bat to install in that current directory
+* Make a fresh install with placing Start_Nanoquake.bat to a new folder (for example C:\games\Nanoquake\) and then double-clicking Start_Nanoquake.bat to install in that current directory and then start Nanoquake
 
 or
 
