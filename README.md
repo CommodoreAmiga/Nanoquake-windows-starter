@@ -4,8 +4,8 @@ This is an optional add-on to Nanoquake Windows version
 
 __Changelog:__
 
-- Notify if new Nanoquake version is available in GitHub
-- Option to download demo files
+- Check if new Nanoquake version is available on GitHub, with option to download and install it
+- Option to download and install demo files
 
 __Installation:__
 
