@@ -1,6 +1,7 @@
 @echo off
 :begin
 title Nanoquake
+if not exist start.py goto :different
 echo Checking for new versions...
 if exist "versionscheck\org_version.txt" goto :version-check
 md versionscheck
@@ -16,7 +17,7 @@ if errorlevel 1 (
 )
 :different
 cls
-powershell [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "$Name = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Name" ; write-host "New version $Name is available" ; write-host "`n"; "$Body = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Body" ; write-host "$Body" ; "$ZipUrl = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty assets | select -ExpandProperty browser_download_url" ; write-host "`n$ZipUrl`n`n"Do you want continue to download and install?" ; Remove-Item versionscheck -Force -Recurse ; pause ; cls ; write-host "Downloading..." ; Invoke-RestMethod -Method Get -Uri $ZipUrl -OutFile update-nq.zip
+powershell [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "$Name = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Name" ; write-host "New version $Name is available" ; write-host "`n"; "$Body = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Body" ; write-host "$Body" ; "$ZipUrl = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty assets | select -ExpandProperty browser_download_url" ; write-host "`n$ZipUrl`n`n"Do you want continue to download and install?" ; Remove-Item versionscheck -Force -Recurse -erroraction 'silentlycontinue' ; pause ; cls ; write-host "Downloading..." ; Invoke-RestMethod -Method Get -Uri $ZipUrl -OutFile update-nq.zip
 cls
 Echo Extracting zip...
 powershell Expand-Archive -Path update-nq.Zip
