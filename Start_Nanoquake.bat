@@ -1,4 +1,5 @@
 @echo off
+:begin
 title Nanoquake
 echo Checking for new versions...
 if exist "versionscheck\org_version.txt" goto :version-check
@@ -15,12 +16,19 @@ if errorlevel 1 (
 )
 :different
 cls
-echo.
-echo Please check out you have latest Nanoquake version from https://github.com/Nanoquake/yquake2/releases
-echo.
-rmdir /s /q versionscheck
+powershell [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "$Name = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Name" ; write-host "New version $Name is available" ; write-host "`n"; "$Body = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Body" ; write-host "$Body" ; "$ZipUrl = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty assets | select -ExpandProperty browser_download_url" ; write-host "`n$ZipUrl`n`n"Do you want continue to download and install?" ; Remove-Item versionscheck -Force -Recurse ; pause ; cls ; write-host "Downloading..." ; Invoke-RestMethod -Method Get -Uri $ZipUrl -OutFile update-nq.zip
+cls
+Echo Extracting zip...
+powershell Expand-Archive -Path update-nq.Zip
+cls
+Echo Copying files...
+powershell Copy-Item -Force -Recurse .\update-nq\*\* .\
+rmdir /s /q update-nq
+del /q update-nq.zip
+powershell [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; "$Name = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/Nanoquake/yquake2/releases/latest' | select -ExpandProperty Name" ; "$Name | Out-File updates.txt -Append -NoClobber"
+Echo Done.
 pause
-exit
+goto :begin
 :version-ok
 cls
 if exist "baseq2\pak0.pak" (
