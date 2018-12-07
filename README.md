@@ -2,6 +2,8 @@
 
 This is an optional add-on to Nanoquake Windows version
 
+_Edit: it is now better to use NanoQuake.exe to start game instead of this of starter_
+
 __Changelog:__
 
 - Check if new Nanoquake version is available on GitHub, with option to download and install it
